@@ -1,7 +1,6 @@
 HELP.md
-.gradle
 build/
-!gradle/wrapper/gradle-wrapper.jar
+.gradle
 !**/src/main/**
 !**/src/test/**
 
@@ -109,7 +108,6 @@ modules.xml
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
