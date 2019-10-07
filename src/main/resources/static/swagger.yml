@@ -78,44 +78,17 @@ paths:
         500:
           description: "Internal Server Error"
   /time:
-    post:
-      tags:
-        - "Allocation"
-      summary: "set allocation time"
-      description: "할당 시간 설정"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      parameters:
-        - in: "body"
-          name: "body"
-          description: "Allocation params"
-          required: true
-          schema:
-            $ref: "#/definitions/AllocationParam"
-      responses:
-        200:
-          description: "success to allocate time"
-        400:
-          description: "Invalid value"
-        500:
-          description: "Internal Server Error"
-  /time/<uuid>:
     get:
+      security:
+        - Bearer: []
       tags:
         - "Allocation"
-      summary: "get allocation time"
+      summary: "get allocation"
       description: "할당 시간 조회"
       consumes:
         - "application/json"
       produces:
         - "application/json"
-      parameters:
-        - in: "url"
-          name: "uuid"
-          description: "user uuid"
-          required: true
       responses:
         200:
           description: "success"
@@ -125,22 +98,52 @@ paths:
           description: "No user matches uuid"
         400:
           description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Allocation"
+      summary: "set allocation"
+      description: "할당 시간 설정"
+      operationId: "set_time"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Allocation params"
+          required: true
+          schema:
+            $ref: "#/definitions/AllocationParam"
+      responses:
+        200:
+          description: "success to allocate"
+          schema:
+            $ref: "#/definitions/AllocationParam"
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
         500:
           description: "Internal Server Error"
     patch:
+      security:
+        - Bearer: []
       tags:
         - "Allocation"
-      summary: "update allocation time"
+      summary: "update allocation "
       description: "할당 시간 수정"
       consumes:
         - "application/json"
       produces:
         - "application/json"
       parameters:
-        - in: "url"
-          name: "uuid"
-          description: "user uuid"
-          required: true
         - in: "body"
           name: "body"
           description: "Allocation params"
@@ -150,11 +153,145 @@ paths:
       responses:
         200:
           description: "success"
+          schema:
+            $ref: "#/definitions/AllocationParam"
         400:
           description: "Invalid value"
+        401:
+          description: "Wrong Token"
         500:
           description: "Internal Server Error"
-
+  /category:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Category"
+      summary: "get category"
+      description: "카테고리 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "success to get"
+          schema:
+            $ref: '#/definitions/CategoryParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    patch:
+      tags:
+        - "Category"
+      summary: "update category"
+      description: "카테고리 수정"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Category params"
+          required: true
+          schema:
+            $ref: "#/definitions/CategoryParam"
+      responses:
+        200:
+          description: "success to update"
+          schema:
+            $ref: '#/definitions/CategoryParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+  /calender:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Calender"
+      summary: "get calender"
+      description: "전체 일정 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "success to get"
+          schema:
+            $ref: '#/definitions/GetAllCalenderResponse'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Calender"
+      summary: "add calender"
+      description: "일정 추가"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "add calender params"
+          required: true
+          schema:
+            $ref: "#/definitions/AddCalenderParam"
+      responses:
+        200:
+          description: "success to get"
+          schema:
+            $ref: '#/definitions/AddCalenderParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        409:
+          description: "소화할 수 없는 일정입니다."
+        500:
+          description: "Internal Server Error"
+    patch:
+      tags:
+        - "Category"
+      summary: "update category"
+      description: "카테고리 수정"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Category params"
+          required: true
+          schema:
+            $ref: "#/definitions/GetAllCalenderResponse"
+      responses:
+        200:
+          description: "success to update"
+          schema:
+            $ref: '#/definitions/CategoryParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
 
 definitions:
   SignupParam:
@@ -175,6 +312,13 @@ definitions:
         type: "string"
         format: "password"
         description: check if same as password1
+  SignupResponse:
+    description: returns access token
+    type: "object"
+    properties:
+      token:
+        type: "string"
+        example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTY0NjQ2NzIwLCJqdGkiOiJlMGNmZjc1MWIwMTU0OTAzOTllMGM
   LoginParam:
     type: "object"
     required:
@@ -191,24 +335,94 @@ definitions:
   AllocationParam:
     type: "object"
     required:
-      - startTime
-      - endTime
+      - start
+      - end
     properties:
-      startTime:
+      start:
         type: "string"
         example: "10:30"
         description: 할당 시간 중 시작 시간
-      endTime:
+      end:
         type: "string"
         example: "22:30"
         description: 할당 시간 중 끝 시간
-  SignupResponse:
-    description: returns uuid & access token
+  CategoryParam:
+    type: "object"
+    required:
+      - purple
+      - blue
+      - pink
+      - orange
+    properties:
+      purple:
+        type: "string"
+        example: "기타"
+      blue:
+        type: "string"
+        example: "회의, 미팅"
+      pink:
+        type: "string"
+        example: "운동"
+      orange:
+        type: "string"
+        example: "과제, 공부"
+  AddCalenderParam:
+    type: "object"
+    required:
+      - isAutomatic
+      - category
+      - calenderName
+      - endTime
+      - requiredtime
+    properties:
+      isAutomatic:
+        type: "boolean"
+        description: "false: 수동관리, true: 자동관리"
+      category:
+        type: "string"
+        example: "purple"
+      calenderName:
+        type: "string"
+        example: "그램 회의"
+      endTime:
+        type: "string"
+        example: "2018-07-26 00:42"
+      requiredTime:
+        type: "string"
+        example: "2018-07-27 00:42"
+      isParticularImportant:
+        type: "boolean"
+        description: "true: 특히 중요함, false: 특히 중요하지는 않음"
+  GetOneCalenderResponse:
     type: "object"
     properties:
-      uuid:
+      id:
+        type: "integer"
+        description: "일정 번호"
+        example:
+          1
+      isAutomatic:
+        type: "boolean"
+        description: "false: 수동관리, true: 자동관리"
+      category:
         type: "string"
-        format: "uuid"
-      token:
+        example: "purple"
+      calenderName:
         type: "string"
-        example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTY0NjQ2NzIwLCJqdGkiOiJlMGNmZjc1MWIwMTU0OTAzOTllMGM
+        example: "그램 회의"
+      endTime:
+        type: "string"
+        example: "2018-07-26 00:42"
+      requiredTime:
+        type: "string"
+        example: "2018-07-27 00:42"
+      isParticularImportant:
+        type: "boolean"
+        description: "true: 특히 중요함, false: 특히 중요하지는 않음"
+  GetAllCalenderResponse:
+    type: "object"
+    properties:
+      calender:
+        type: array
+        items:
+          $ref: '#/definitions/GetOneCalenderResponse'
