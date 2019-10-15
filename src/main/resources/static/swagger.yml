@@ -560,6 +560,6 @@ definitions:
         type: "string"
         example: "2018-07-26 00:42"
   GetAllCalendarResponse:
-    allOf:
-      - $ref: '#/definitions/GetAutoCalendarResponse'
-      - $ref: '#/definitions/GetManualCalendarResponse'
+    type: "array"
+    items:
+      $ref: '#/definitions/GetManualCalendarResponse'
