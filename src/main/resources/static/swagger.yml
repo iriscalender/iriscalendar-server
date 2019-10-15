@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   description: "Java Project"
   version: "0.0.1"
-  title: "iris calender"
+  title: "iris calendar"
 #host: ""
 basePath: "/"
 tags:
@@ -12,7 +12,7 @@ tags:
     description: "할당 시간 관련 api"
   - name: "Category"
     description: "카테고리 관련 api"
-  - name: "Calender"
+  - name: "calendar"
     description: "일정 관리 api"
 schemes:
   - "https"
@@ -211,13 +211,13 @@ paths:
           description: "Wrong Token"
         500:
           description: "Internal Server Error"
-  /calender:
+  /calendar:
     get:
       security:
         - Bearer: []
       tags:
-        - "Calender"
-      summary: "get calender"
+        - "calendar"
+      summary: "get calendar"
       description: "전체 일정 조회"
       consumes:
         - "application/json"
@@ -227,20 +227,21 @@ paths:
         200:
           description: "success to get"
           schema:
-            $ref: '#/definitions/GetAllCalenderResponse'
+            $ref: '#/definitions/GetAllCalendarResponse'
         400:
           description: "Invalid value"
         401:
           description: "Wrong Token"
         500:
           description: "Internal Server Error"
+  /calendar/auto:
     post:
       security:
         - Bearer: []
       tags:
-        - "Calender"
-      summary: "add calender"
-      description: "일정 추가"
+        - "calendar"
+      summary: "add calendar"
+      description: "자동관리 일정 추가"
       consumes:
         - "application/json"
       produces:
@@ -248,15 +249,15 @@ paths:
       parameters:
         - in: "body"
           name: "body"
-          description: "add calender params"
+          description: "add calendar params"
           required: true
           schema:
-            $ref: "#/definitions/AddCalenderParam"
+            $ref: "#/definitions/AddAutoCalendarParam"
       responses:
         200:
           description: "success to get"
           schema:
-            $ref: '#/definitions/AddCalenderParam'
+            $ref: '#/definitions/AddAutoCalendarParam'
         400:
           description: "Invalid value"
         401:
@@ -265,14 +266,47 @@ paths:
           description: "소화할 수 없는 일정입니다."
         500:
           description: "Internal Server Error"
-  /calender/<id>:
+  /calendar/manual:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "calendar"
+      summary: "add calendar"
+      description: "고정일정 추가"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "add calendar params"
+          required: true
+          schema:
+            $ref: "#/definitions/AddManualCalendarParam"
+        - in:
+      responses:
+        200:
+          description: "success to get"
+          schema:
+            $ref: '#/definitions/AddManualCalendarParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        409:
+          description: "소화할 수 없는 일정입니다."
+        500:
+          description: "Internal Server Error"
+  /calendar/auto/<id>:
     get:
       security:
         - Bearer: []
       tags:
-        - "Calender"
-      summary: "get one calender"
-      description: "틀정 일정 조회"
+        - "calendar"
+      summary: "get automatic calendar"
+      description: "자동관리 일정 조회"
       consumes:
         - "application/json"
       produces:
@@ -281,7 +315,7 @@ paths:
         200:
           description: "OK"
           schema:
-            $ref: '#/definitions/GetOneCalenderResponse'
+            $ref: '#/definitions/GetAutoCalendarResponse'
         400:
           description: "Invalid value"
         401:
@@ -292,9 +326,9 @@ paths:
       security:
         - Bearer: []
       tags:
-        - "Calender"
-      summary: "update calender"
-      description: "일정 수정"
+        - "calendar"
+      summary: "update automatic calendar"
+      description: "자동관리 일정 수정"
       consumes:
         - "application/json"
       produces:
@@ -305,19 +339,70 @@ paths:
           description: "Category params"
           required: true
           schema:
-            $ref: "#/definitions/AddCalenderParam"
+            $ref: "#/definitions/AddAutoCalendarParam"
       responses:
         200:
           description: "success to update"
           schema:
-            $ref: '#/definitions/GetOneCalenderResponse'
+            $ref: '#/definitions/GetAutoCalendarResponse'
         400:
           description: "Invalid value"
         401:
           description: "Wrong Token"
         500:
           description: "Internal Server Error"
-
+  /calendar/manual/<id>:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "calendar"
+      summary: "get manual calendar"
+      description: "수동관리 일정 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetManualCalendarResponse'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - "calendar"
+      summary: "update manual calendar"
+      description: "수동관리 일정 수정"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Category params"
+          required: true
+          schema:
+            $ref: "#/definitions/AddManualCalendarParam"
+      responses:
+        200:
+          description: "success to update"
+          schema:
+            $ref: '#/definitions/GetManualCalendarResponse'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
 definitions:
   SignupParam:
     type: "object"
@@ -391,62 +476,94 @@ definitions:
       orange:
         type: "string"
         example: "과제, 공부"
-  AddCalenderParam:
+  AddAutoCalendarParam:
     type: "object"
     required:
-      - isAutomatic
       - category
-      - calenderName
+      - calendarName
       - endTime
       - requiredtime
     properties:
-      isAutomatic:
-        type: "boolean"
-        description: "false: 수동관리, true: 자동관리"
       category:
         type: "string"
         example: "purple"
-      calenderName:
+      calendarName:
         type: "string"
         example: "그램 회의"
       endTime:
         type: "string"
-        example: "2018-07-26 00:42"
+        example: "2018-07-26"
       requiredTime:
         type: "number"
         example: 1
       isParticularImportant:
         type: "boolean"
         description: "true: 특히 중요함, false: 특히 중요하지는 않음"
-  GetOneCalenderResponse:
+  AddManualCalendarParam:
+    type: "object"
+    required:
+      - category
+      - calendarName
+      - startTime
+      - endTime
+    properties:
+      category:
+        type: "string"
+        example: "purple"
+      calendarName:
+        type: "string"
+        example: "그램 회의"
+      startTime:
+        type: "string"
+        example: "2018-07-26 13:00"
+      endTime:
+        type: "string"
+        example: "2018-07-26 17:00"
+  GetAutoCalendarResponse:
     type: "object"
     properties:
       id:
         type: "integer"
         description: "일정 번호"
         example: 1
-      isAutomatic:
-        type: "boolean"
-        description: "false: 수동관리, true: 자동관리"
       category:
         type: "string"
         example: "purple"
-      calenderName:
+      calendarName:
         type: "string"
         example: "그램 회의"
       endTime:
         type: "string"
-        example: "2018-07-26 00:42"
+        example: "2018-07-26"
       requiredTime:
         type: "number"
         example: 1
       isParticularImportant:
         type: "boolean"
         description: "true: 특히 중요함, false: 특히 중요하지는 않음"
-  GetAllCalenderResponse:
+  GetManualCalendarResponse:
     type: "object"
     properties:
-      calender:
+      id:
+        type: "integer"
+        description: "일정 번호"
+        example: 1
+      category:
+        type: "string"
+        example: "purple"
+      calendarName:
+        type: "string"
+        example: "그램 회의"
+      startTime:
+        type: "string"
+        example: "2018-07-26 03:42"
+      endTime:
+        type: "string"
+        example: "2018-07-26 00:42"
+  GetAllCalendarResponse:
+    type: "object"
+    properties:
+      calendar:
         type: array
         items:
-          $ref: '#/definitions/GetOneCalenderResponse'
+          $ref: '#/definitions/GetOneCalendarResponse', '#/definitions/GetManualCalendarResponse'
