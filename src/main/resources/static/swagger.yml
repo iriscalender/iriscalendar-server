@@ -12,7 +12,7 @@ tags:
     description: "할당 시간 관련 api"
   - name: "Category"
     description: "카테고리 관련 api"
-  - name: "calendar"
+  - name: "Calendar"
     description: "일정 관리 api"
 schemes:
   - "https"
@@ -216,7 +216,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - "calendar"
+        - "Calendar"
       summary: "get calendar"
       description: "전체 일정 조회"
       consumes:
@@ -239,8 +239,8 @@ paths:
       security:
         - Bearer: []
       tags:
-        - "calendar"
-      summary: "add calendar"
+        - "Calendar"
+      summary: "add automatic calendar"
       description: "자동관리 일정 추가"
       consumes:
         - "application/json"
@@ -271,8 +271,8 @@ paths:
       security:
         - Bearer: []
       tags:
-        - "calendar"
-      summary: "add calendar"
+        - "Calendar"
+      summary: "add manual calendar"
       description: "고정일정 추가"
       consumes:
         - "application/json"
@@ -303,7 +303,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - "calendar"
+        - "Calendar"
       summary: "get automatic calendar"
       description: "자동관리 일정 조회"
       consumes:
@@ -325,7 +325,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - "calendar"
+        - "Calendar"
       summary: "update automatic calendar"
       description: "자동관리 일정 수정"
       consumes:
@@ -355,7 +355,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - "calendar"
+        - "Calendar"
       summary: "get manual calendar"
       description: "수동관리 일정 조회"
       consumes:
@@ -377,7 +377,7 @@ paths:
       security:
         - Bearer: []
       tags:
-        - "calendar"
+        - "Calendar"
       summary: "update manual calendar"
       description: "수동관리 일정 수정"
       consumes:
