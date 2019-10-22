@@ -1,0 +1,571 @@
+swagger: "2.0"
+info:
+  description: "Java Project"
+  version: "0.0.1"
+  title: "iris calendar"
+#host: ""
+basePath: "/"
+tags:
+  - name: "Account"
+    description: "계정 관련 api"
+  - name: "Allocation"
+    description: "할당 시간 관련 api"
+  - name: "Category"
+    description: "카테고리 관련 api"
+  - name: "Calendar"
+    description: "일정 관리 api"
+schemes:
+  - "https"
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+paths:
+  /auth/signup:
+    post:
+      tags:
+        - "Account"
+      summary: "Register user by id and password"
+      description: "회원가입"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Registration params"
+          required: true
+          schema:
+            $ref: "#/definitions/SignupParam"
+      responses:
+        201:
+          description: "User created and returns uuid and token"
+          schema:
+            $ref: '#/definitions/SignupResponse'
+        400:
+          description: "Invalid registration value"
+        409:
+          description: "User already exists"
+        500:
+          description: "Internal Server Error"
+  /auth/login:
+    post:
+      tags:
+        - "Account"
+      summary: "login by id and password"
+      description: "로그인"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Login params"
+          required: true
+          schema:
+            $ref: "#/definitions/LoginParam"
+      responses:
+        200:
+          description: "success to verify user"
+          schema:
+            $ref: '#/definitions/SignupResponse'
+        400:
+          description: "Invalid value"
+        500:
+          description: "Internal Server Error"
+  /time:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Allocation"
+      summary: "get allocation"
+      description: "할당 시간 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/AllocationParam"
+        204:
+          description: "No user matches uuid"
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Allocation"
+      summary: "set allocation"
+      description: "할당 시간 설정"
+      operationId: "set_time"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Allocation params"
+          required: true
+          schema:
+            $ref: "#/definitions/AllocationParam"
+      responses:
+        200:
+          description: "success to allocate"
+          schema:
+            $ref: "#/definitions/AllocationParam"
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - "Allocation"
+      summary: "update allocation "
+      description: "할당 시간 수정"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Allocation params"
+          required: true
+          schema:
+            $ref: "#/definitions/AllocationParam"
+      responses:
+        200:
+          description: "success"
+          schema:
+            $ref: "#/definitions/AllocationParam"
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+  /category:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Category"
+      summary: "get category"
+      description: "카테고리 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "success to get"
+          schema:
+            $ref: '#/definitions/CategoryParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    patch:
+      tags:
+        - "Category"
+      summary: "update category"
+      description: "카테고리 수정"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Category params"
+          required: true
+          schema:
+            $ref: "#/definitions/CategoryParam"
+      responses:
+        200:
+          description: "success to update"
+          schema:
+            $ref: '#/definitions/CategoryParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+  /calendar:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "get calendar"
+      description: "전체 일정 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "success to get"
+          schema:
+            $ref: '#/definitions/GetAllCalendarResponse'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+  /calendar/auto:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "add automatic calendar"
+      description: "자동관리 일정 추가"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "add calendar params"
+          required: true
+          schema:
+            $ref: "#/definitions/AddAutoCalendarParam"
+      responses:
+        200:
+          description: "success to get"
+          schema:
+            $ref: '#/definitions/AddAutoCalendarParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        409:
+          description: "소화할 수 없는 일정입니다."
+        500:
+          description: "Internal Server Error"
+  /calendar/manual:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "add manual calendar"
+      description: "고정일정 추가"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "add calendar params"
+          required: true
+          schema:
+            $ref: "#/definitions/AddManualCalendarParam"
+      responses:
+        200:
+          description: "success to get"
+          schema:
+            $ref: '#/definitions/AddManualCalendarParam'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        409:
+          description: "소화할 수 없는 일정입니다."
+        500:
+          description: "Internal Server Error"
+  /calendar/auto/<id>:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "get automatic calendar"
+      description: "자동관리 일정 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetAutoCalendarResponse'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "update automatic calendar"
+      description: "자동관리 일정 수정"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Category params"
+          required: true
+          schema:
+            $ref: "#/definitions/AddAutoCalendarParam"
+      responses:
+        200:
+          description: "success to update"
+          schema:
+            $ref: '#/definitions/GetAutoCalendarResponse'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+  /calendar/manual/<id>:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "get manual calendar"
+      description: "수동관리 일정 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetManualCalendarResponse'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "update manual calendar"
+      description: "수동관리 일정 수정"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Category params"
+          required: true
+          schema:
+            $ref: "#/definitions/AddManualCalendarParam"
+      responses:
+        200:
+          description: "success to update"
+          schema:
+            $ref: '#/definitions/GetManualCalendarResponse'
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+definitions:
+  SignupParam:
+    type: "object"
+    required:
+      - id
+      - password1
+      - password2
+    properties:
+      id:
+        type: "string"
+        description: user id, minlength 6
+      password1:
+        type: "string"
+        format: "password"
+        description: minlength 8, AlphanumericPassword
+      password2:
+        type: "string"
+        format: "password"
+        description: check if same as password1
+  SignupResponse:
+    description: returns access token
+    type: "object"
+    properties:
+      token:
+        type: "string"
+        example: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTY0NjQ2NzIwLCJqdGkiOiJlMGNmZjc1MWIwMTU0OTAzOTllMGM
+  LoginParam:
+    type: "object"
+    required:
+      - id
+      - password
+    properties:
+      id:
+        type: "string"
+        description: user id, minlength 6
+      password:
+        type: "string"
+        format: "password"
+        description: minlength 8, AlphanumericPassword
+  AllocationParam:
+    type: "object"
+    required:
+      - start
+      - end
+    properties:
+      start:
+        type: "string"
+        example: "10:30"
+        description: 할당 시간 중 시작 시간
+      end:
+        type: "string"
+        example: "22:30"
+        description: 할당 시간 중 끝 시간
+  CategoryParam:
+    type: "object"
+    required:
+      - purple
+      - blue
+      - pink
+      - orange
+    properties:
+      purple:
+        type: "string"
+        example: "기타"
+      blue:
+        type: "string"
+        example: "회의, 미팅"
+      pink:
+        type: "string"
+        example: "운동"
+      orange:
+        type: "string"
+        example: "과제, 공부"
+  AddAutoCalendarParam:
+    type: "object"
+    required:
+      - category
+      - calendarName
+      - endTime
+      - requiredtime
+    properties:
+      category:
+        type: "string"
+        example: "purple"
+      calendarName:
+        type: "string"
+        example: "그램 회의"
+      endTime:
+        type: "string"
+        example: "2018-07-26"
+      requiredTime:
+        type: "number"
+        example: 1
+      isParticularImportant:
+        type: "boolean"
+        description: "true: 특히 중요함, false: 특히 중요하지는 않음"
+  AddManualCalendarParam:
+    type: "object"
+    required:
+      - category
+      - calendarName
+      - startTime
+      - endTime
+    properties:
+      category:
+        type: "string"
+        example: "purple"
+      calendarName:
+        type: "string"
+        example: "그램 회의"
+      startTime:
+        type: "string"
+        example: "2018-07-26 13:00"
+      endTime:
+        type: "string"
+        example: "2018-07-26 17:00"
+  GetAutoCalendarResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "일정 번호"
+        example: 1
+      category:
+        type: "string"
+        example: "purple"
+      calendarName:
+        type: "string"
+        example: "그램 회의"
+      endTime:
+        type: "string"
+        example: "2018-07-26"
+      requiredTime:
+        type: "number"
+        example: 1
+      isParticularImportant:
+        type: "boolean"
+        description: "true: 특히 중요함, false: 특히 중요하지는 않음"
+      isAuto:
+        type: "boolean"
+        example: true
+  GetManualCalendarResponse:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        description: "일정 번호"
+        example: 1
+      category:
+        type: "string"
+        example: "purple"
+      calendarName:
+        type: "string"
+        example: "그램 회의"
+      startTime:
+        type: "string"
+        example: "2018-07-26 03:42"
+      endTime:
+        type: "string"
+        example: "2018-07-26 00:42"
+      isAuto:
+        type: "boolean"
+        example: true
+  GetAllCalendarResponse:
+    type: "array"
+    items:
+      $ref: '#/definitions/GetManualCalendarResponse'
