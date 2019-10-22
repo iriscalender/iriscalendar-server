@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AccountRestController {
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "HelloWorld";
+            userRepository.save(newUser);
+            Token token = new Token(newUser);
+            return ok(token.getTokenResponse());
+        }
     }
 }
