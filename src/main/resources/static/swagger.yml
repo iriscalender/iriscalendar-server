@@ -211,29 +211,6 @@ paths:
           description: "Wrong Token"
         500:
           description: "Internal Server Error"
-  /calendar:
-    get:
-      security:
-        - Bearer: []
-      tags:
-        - "Calendar"
-      summary: "get calendar"
-      description: "전체 일정 조회"
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
-      responses:
-        200:
-          description: "success to get"
-          schema:
-            $ref: '#/definitions/GetAllCalendarResponse'
-        400:
-          description: "Invalid value"
-        401:
-          description: "Wrong Token"
-        500:
-          description: "Internal Server Error"
   /calendar/auto:
     post:
       security:
@@ -402,6 +379,54 @@ paths:
           description: "Wrong Token"
         500:
           description: "Internal Server Error"
+  /calendar/<date>:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "get calendar by date"
+      description: "해당 날짜의 일정 조회"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetManualCalendarResponse'
+        204:
+          description: "일정 없음"
+        400:
+          description: "Invalid value"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
+  /calendar/book:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "get booked calendar"
+      description: "캘린더에 등록된 날짜"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: '#/definitions/GetAllBookedResponse'
+        204:
+          description: "예약된 일정 없음"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
 definitions:
   SignupParam:
     type: "object"
@@ -564,8 +589,17 @@ definitions:
         example: "2018-07-26 00:42"
       isAuto:
         type: "boolean"
-        example: true
-  GetAllCalendarResponse:
+        example: false
+  GetBookedCalendar:
+    type: "object"
+    properties:
+      category:
+        type: "string"
+        example: "purple"
+      date:
+        type: "string"
+        example: "2019-01-01"
+  GetAllBookedResponse:
     type: "array"
     items:
-      $ref: '#/definitions/GetManualCalendarResponse'
+      $ref: '#/definitions/GetBookedCalendar'
