@@ -2,7 +2,7 @@ package com.javaproject.iriscalender.model.request;
 
 import com.javaproject.iriscalender.exception.BadRequestException;
 
-public class LoginParam {
+public class SignUpModel {
     String id;
     String password1;
     String password2;
