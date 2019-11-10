@@ -325,6 +325,8 @@ paths:
           description: "Invalid value"
         401:
           description: "Wrong Token"
+        409:
+          description: "소화할 수 없는 일정"
         500:
           description: "Internal Server Error"
   /calendar/manual/<id>:
@@ -377,6 +379,8 @@ paths:
           description: "Invalid value"
         401:
           description: "Wrong Token"
+        409:
+          description: "소화할 수 없는 일정"
         500:
           description: "Internal Server Error"
   /calendar/<date>:
@@ -395,7 +399,7 @@ paths:
         200:
           description: "OK"
           schema:
-            $ref: '#/definitions/GetManualCalendarResponse'
+            $ref: '#/definitions/GetAllCalendarByDate'
         204:
           description: "일정 없음"
         400:
@@ -546,10 +550,6 @@ definitions:
   GetAutoCalendarResponse:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        description: "일정 번호"
-        example: 1
       category:
         type: "string"
         example: "purple"
@@ -565,16 +565,9 @@ definitions:
       isParticularImportant:
         type: "boolean"
         description: "true: 특히 중요함, false: 특히 중요하지는 않음"
-      isAuto:
-        type: "boolean"
-        example: true
   GetManualCalendarResponse:
     type: "object"
     properties:
-      id:
-        type: "integer"
-        description: "일정 번호"
-        example: 1
       category:
         type: "string"
         example: "purple"
@@ -587,9 +580,10 @@ definitions:
       endTime:
         type: "string"
         example: "2018-07-26 00:42"
-      isAuto:
-        type: "boolean"
-        example: false
+  GetAllCalendarByDate:
+    type: "array"
+    items:
+      $ref: '#/definitions/GetManualCalendarResponse'
   GetBookedCalendar:
     type: "object"
     properties:
