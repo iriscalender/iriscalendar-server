@@ -1,41 +1,31 @@
 package com.javaproject.iriscalender.model.request;
 
 import com.javaproject.iriscalender.exception.BadRequestException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignUpModel {
-    String id;
-    String password1;
-    String password2;
+    private String id;
+    @NotNull
+    private String password1;
+    @NotNull
+    private String password2;
 
-    public String getId() {
-        return id;
-    }
-
-    public String getPassword() {
-        if (password1.equals(password2)) {
-            return password1;
-        } else {
-            throw new BadRequestException("Bad Request Param");
+    private void checkPasswordCorrect() {
+        if (!getPassword1().equals(getPassword2())) {
+            throw new BadRequestException("Bad request param.");
         }
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPassword1() {
-        return password1;
-    }
-
-    public void setPassword1(String password1) {
-        this.password1 = password1;
-    }
-
-    public String getPassword2() {
-        return password2;
-    }
-
-    public void setPassword2(String password2) {
-        this.password2 = password2;
+    public String getPassword() {
+        checkPasswordCorrect();
+        return getPassword1();
     }
 }

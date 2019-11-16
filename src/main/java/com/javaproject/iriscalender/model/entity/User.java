@@ -13,14 +13,13 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    String userId;
-    String userPassword;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long idx;
+
+    private String id;
+    private String password;
 
     public String getUserId() {
-        return userId;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
+        return id;
     }
 }
