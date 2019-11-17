@@ -2,10 +2,8 @@ package com.javaproject.iriscalendar.controller;
 
 import com.javaproject.iriscalendar.exception.InvalidJwtAuthenticationException;
 import com.javaproject.iriscalendar.model.entity.Category;
-import com.javaproject.iriscalendar.model.entity.Time;
 import com.javaproject.iriscalendar.model.entity.User;
-import com.javaproject.iriscalendar.model.request.TimeModel;
-import com.javaproject.iriscalendar.model.response.CategoryModel;
+import com.javaproject.iriscalendar.model.request.CategoryModel;
 import com.javaproject.iriscalendar.service.AuthService;
 import com.javaproject.iriscalendar.service.CategoryService;
 import com.javaproject.iriscalendar.service.TokenService;
