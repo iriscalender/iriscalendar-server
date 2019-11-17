@@ -1,4 +1,4 @@
 package com.javaproject.iriscalendar.controller;
 
-public class CalendarRestController {
+public class CalendarController {
 }
