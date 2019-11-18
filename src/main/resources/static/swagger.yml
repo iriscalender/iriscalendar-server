@@ -558,7 +558,7 @@ definitions:
         example: "그램 회의"
       endTime:
         type: "string"
-        example: "2018-07-26"
+        example: "2018-07-26 11:30"
       requiredTime:
         type: "number"
         example: 1
