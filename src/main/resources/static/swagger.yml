@@ -607,6 +607,9 @@ definitions:
         type: "string"
         example: "2019-01-01"
   GetAllBookedResponse:
-    type: "array"
-    items:
-      $ref: '#/definitions/GetBookedCalendar'
+    type: "object"
+    properties:
+      booked_calendar:
+        type: "array"
+        items:
+          $ref: '#/definitions/GetBookedCalendar'
