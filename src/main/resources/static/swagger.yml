@@ -329,6 +329,22 @@ paths:
           description: "소화할 수 없는 일정"
         500:
           description: "Internal Server Error"
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "delete automatic calendar"
+      description: "자동관리 일정 완료"
+      responses:
+        200:
+          description: "delete"
+        204:
+          description: "없는 일정"
+        401:
+          description: "Wrong Token"
+        500:
+          description: "Internal Server Error"
   /calendar/manual/<id>:
     get:
       security:
@@ -381,6 +397,22 @@ paths:
           description: "Wrong Token"
         409:
           description: "소화할 수 없는 일정"
+        500:
+          description: "Internal Server Error"
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - "Calendar"
+      summary: "delete manual calendar"
+      description: "고정관리 일정 완료"
+      responses:
+        200:
+          description: "delete"
+        204:
+          description: "없는 일정"
+        401:
+          description: "Wrong Token"
         500:
           description: "Internal Server Error"
   /calendar/<date>:
