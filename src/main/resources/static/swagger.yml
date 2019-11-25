@@ -609,7 +609,7 @@ definitions:
   GetAllBookedResponse:
     type: "object"
     properties:
-      booked_calendar:
+      calendar:
         type: "array"
         items:
           $ref: '#/definitions/GetBookedCalendar'
