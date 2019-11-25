@@ -550,6 +550,9 @@ definitions:
   GetAutoCalendarResponse:
     type: "object"
     properties:
+      id:
+        type: "integer"
+        example: "1"
       category:
         type: "string"
         example: "purple"
@@ -568,6 +571,9 @@ definitions:
   GetManualCalendarResponse:
     type: "object"
     properties:
+      id:
+        type: "integer"
+        example: "1"
       category:
         type: "string"
         example: "purple"
@@ -581,9 +587,16 @@ definitions:
         type: "string"
         example: "2018-07-26 00:42"
   GetAllCalendarByDate:
-    type: "array"
-    items:
-      $ref: '#/definitions/GetManualCalendarResponse'
+    type: "object"
+    properties:
+      manual:
+        type: "array"
+        items:
+          $ref: '#/definitions/GetManualCalendarResponse'
+      auto:
+        type: "array"
+        items:
+          $ref: '#/definitions/GetAutoCalendarResponse'
   GetBookedCalendar:
     type: "object"
     properties:
