@@ -51,7 +51,7 @@ paths:
           description: "User already exists"
         500:
           description: "Internal Server Error"
-  /auth/login:
+  /auth/signin:
     post:
       tags:
         - "Account"
