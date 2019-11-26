@@ -628,7 +628,7 @@ definitions:
       auto:
         type: "array"
         items:
-          $ref: '#/definitions/GetAutoCalendarResponse'
+          $ref: '#/definitions/GetManualCalendarResponse'
   GetBookedCalendar:
     type: "object"
     properties:
