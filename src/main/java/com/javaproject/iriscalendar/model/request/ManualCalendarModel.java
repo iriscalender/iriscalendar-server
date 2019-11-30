@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 public class ManualCalendarModel {
+    private Long id;
     @NotNull
     private String category;
     @NotNull
