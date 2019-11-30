@@ -6,9 +6,9 @@ import com.javaproject.iriscalendar.model.entity.Time;
 import com.javaproject.iriscalendar.model.entity.User;
 import com.javaproject.iriscalendar.model.request.TimeModel;
 import com.javaproject.iriscalendar.model.response.TimeResponse;
-import com.javaproject.iriscalendar.service.AuthService;
-import com.javaproject.iriscalendar.service.TimeService;
-import com.javaproject.iriscalendar.service.TokenService;
+import com.javaproject.iriscalendar.service.auth.AuthService;
+import com.javaproject.iriscalendar.service.time.TimeService;
+import com.javaproject.iriscalendar.service.auth.TokenService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -4,9 +4,9 @@ import com.javaproject.iriscalendar.exception.InvalidJwtAuthenticationException;
 import com.javaproject.iriscalendar.model.entity.Category;
 import com.javaproject.iriscalendar.model.entity.User;
 import com.javaproject.iriscalendar.model.request.CategoryModel;
-import com.javaproject.iriscalendar.service.AuthService;
-import com.javaproject.iriscalendar.service.CategoryService;
-import com.javaproject.iriscalendar.service.TokenService;
+import com.javaproject.iriscalendar.service.auth.AuthService;
+import com.javaproject.iriscalendar.service.category.CategoryService;
+import com.javaproject.iriscalendar.service.auth.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

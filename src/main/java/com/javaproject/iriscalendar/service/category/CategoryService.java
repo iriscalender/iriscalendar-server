@@ -1,4 +1,4 @@
-package com.javaproject.iriscalendar.service;
+package com.javaproject.iriscalendar.service.category;
 
 import com.javaproject.iriscalendar.model.entity.Category;
 import com.javaproject.iriscalendar.model.entity.User;

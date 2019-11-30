@@ -1,4 +1,4 @@
-package com.javaproject.iriscalendar.service;
+package com.javaproject.iriscalendar.service.time;
 
 import com.javaproject.iriscalendar.model.entity.Time;
 import com.javaproject.iriscalendar.model.request.TimeModel;
