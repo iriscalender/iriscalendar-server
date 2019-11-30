@@ -13,7 +13,9 @@ import com.javaproject.iriscalendar.service.calendar.AutomaticCalendarService;
 import com.javaproject.iriscalendar.service.calendar.ManualCalendarService;
 import com.javaproject.iriscalendar.service.time.TimeService;
 import com.javaproject.iriscalendar.service.auth.TokenService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +40,7 @@ public class CalendarController {
     AutoToManualCalendarService autoToManualCalendarService;
 
     @PostMapping("/auto")
-    public AutomaticCalendar addAutomaticCalendar(@RequestHeader("Authorization") String auth, @RequestBody @Valid AutomaticCalendar newCalendar) {
+    public ResponseEntity<AutomaticCalendar> addAutomaticCalendar(@RequestHeader("Authorization") String auth, @RequestBody @Valid AutomaticCalendar newCalendar) {
         /*
         {
             "category": "purple",
@@ -58,7 +60,7 @@ public class CalendarController {
         automaticCalendarService.save(newCalendar);
 
         autoToManualCalendarService.test(newCalendar);
-        return newCalendar;
+        return new ResponseEntity<>(newCalendar, HttpStatus.CREATED);
     }
 
     @GetMapping("/auto/{id}")
@@ -101,69 +103,69 @@ public class CalendarController {
         return ResponseEntity.ok("");
     }
 
-//    @PostMapping("/manual")
-//    public ManualCalendar addManualCalendar(@RequestHeader("Authorization") String auth, @RequestBody @Valid ManualCalendarModel manualCalendarModel) {
-//        /*
-//        {
-//            "category": "purple",
-//            "calendarName": "그램 회의",
-//            "startTime": "2018-07-26 13:00",
-//            "endTime": "2018-07-26 17:00"
-//        }
-//        */
-//        String id = tokenService.getIdentity(auth);
-//        Optional<ManualCalendar> calendar = manualCalendarService.getManualCalendarByUserId(id);
-//        if (calendar.isPresent()) {
-//            throw new AlreadyExistException("Calendar already set.");
-//        }
-//        User user = authService.getUserById(id)
-//                .orElseThrow(() -> new InvalidJwtAuthenticationException("invalid JWT token"));
-//
-//        ManualCalendar newCalendar = ManualCalendar.builder()
-//                .user(user)
-//                .category(manualCalendarModel.getCategory())
-//                .calendarName(manualCalendarModel.getCalendarName())
-//                .startTime(manualCalendarModel.getStartTime())
-//                .endTime(manualCalendarModel.getEndTime())
-//                .build();
-//
-//        return manualCalendarService.save(newCalendar);
-//    }
-//
-//    @GetMapping("/manual/{id}")
-//    public ManualCalendar getManualCalendar(@RequestHeader("Authorization") String auth, @PathVariable("id") Long calendarId) {
-//        String id = tokenService.getIdentity(auth);
-//        authService.getUserById(id)
-//                .orElseThrow(() -> new InvalidJwtAuthenticationException("invalid JWT token"));
-//
-//        return manualCalendarService.getManualCalendarByIdx(calendarId)
-//                .orElseThrow(() -> new NoMatchException("no match calendar"));
-//    }
-//
-//    @PatchMapping("/manual/{id}")
-//    public ManualCalendar updateManualCalendar(@RequestHeader("Authorization") String auth, @PathVariable("id") Long calendarId, @RequestBody @Valid ManualCalendarModel update) {
-//        String id = tokenService.getIdentity(auth);
-//        authService.getUserById(id)
-//                .orElseThrow(() -> new InvalidJwtAuthenticationException("invalid JWT token"));
-//
-//        ManualCalendar calendar = manualCalendarService.getManualCalendarByIdx(calendarId)
-//                .orElseThrow(() -> new NoMatchException("no match calendar"));
-//
-//        return manualCalendarService.update(calendar, update);
-//    }
-//
-//    @DeleteMapping("/manual/{id}")
-//    public ResponseEntity deleteManualCalendar(@RequestHeader("Authorization") String auth, @PathVariable("id") Long calendarId) {
-//        String id = tokenService.getIdentity(auth);
-//        authService.getUserById(id)
-//                .orElseThrow(() -> new InvalidJwtAuthenticationException("invalid JWT token"));
-//
-//        ManualCalendar calendar = manualCalendarService.getManualCalendarByIdx(calendarId)
-//                .orElseThrow(() -> new NoMatchException("no match calendar"));
-//
-//        manualCalendarService.delete(calendar);
-//        return ResponseEntity.ok("");
-//    }
+    @PostMapping("/manual")
+    public ManualCalendar addManualCalendar(@RequestHeader("Authorization") String auth, @RequestBody @Valid ManualCalendarModel manualCalendarModel) {
+        /*
+        {
+            "category": "purple",
+            "calendarName": "그램 회의",
+            "startTime": "2018-07-26 13:00",
+            "endTime": "2018-07-26 17:00"
+        }
+        */
+        String id = tokenService.getIdentity(auth);
+        Optional<ManualCalendar> calendar = manualCalendarService.getManualCalendarByUserId(id);
+        if (calendar.isPresent()) {
+            throw new AlreadyExistException("Calendar already set.");
+        }
+        User user = authService.getUserById(id)
+                .orElseThrow(() -> new InvalidJwtAuthenticationException("invalid JWT token"));
+
+        ManualCalendar newCalendar = ManualCalendar.builder()
+                .user(user)
+                .category(manualCalendarModel.getCategory())
+                .calendarName(manualCalendarModel.getCalendarName())
+                .startTime(manualCalendarModel.getStartTime())
+                .endTime(manualCalendarModel.getEndTime())
+                .build();
+
+        return manualCalendarService.save(newCalendar);
+    }
+
+    @GetMapping("/manual/{id}")
+    public ManualCalendar getManualCalendar(@RequestHeader("Authorization") String auth, @PathVariable("id") Long calendarId) {
+        String id = tokenService.getIdentity(auth);
+        authService.getUserById(id)
+                .orElseThrow(() -> new InvalidJwtAuthenticationException("invalid JWT token"));
+
+        return manualCalendarService.getManualCalendarByIdx(calendarId)
+                .orElseThrow(() -> new NoMatchException("no match calendar"));
+    }
+
+    @PatchMapping("/manual/{id}")
+    public ManualCalendar updateManualCalendar(@RequestHeader("Authorization") String auth, @PathVariable("id") Long calendarId, @RequestBody @Valid ManualCalendarModel update) {
+        String id = tokenService.getIdentity(auth);
+        authService.getUserById(id)
+                .orElseThrow(() -> new InvalidJwtAuthenticationException("invalid JWT token"));
+
+        ManualCalendar calendar = manualCalendarService.getManualCalendarByIdx(calendarId)
+                .orElseThrow(() -> new NoMatchException("no match calendar"));
+
+        return manualCalendarService.update(calendar, update);
+    }
+
+    @DeleteMapping("/manual/{id}")
+    public ResponseEntity deleteManualCalendar(@RequestHeader("Authorization") String auth, @PathVariable("id") Long calendarId) {
+        String id = tokenService.getIdentity(auth);
+        authService.getUserById(id)
+                .orElseThrow(() -> new InvalidJwtAuthenticationException("invalid JWT token"));
+
+        ManualCalendar calendar = manualCalendarService.getManualCalendarByIdx(calendarId)
+                .orElseThrow(() -> new NoMatchException("no match calendar"));
+
+        manualCalendarService.delete(calendar);
+        return ResponseEntity.ok("");
+    }
 //
 //    @GetMapping("/{date}")
 //    public ResponseEntity getCalendarByDate(@PathVariable("date") String date) {
