@@ -53,7 +53,7 @@ public class CalendarController {
 
         newCalendar.setUser(user);
         newCalendar.setPriority(0);
-        autoToManualCalendarService.addNewCalendar(newCalendar, id);
+//        autoToManualCalendarService.addNewCalendar(newCalendar, id);
         automaticCalendarService.save(newCalendar);
 
         autoToManualCalendarService.test(newCalendar);
