@@ -1,4 +1,4 @@
-package com.javaproject.iriscalendar.service;
+package com.javaproject.iriscalendar.service.auth;
 
 import org.springframework.stereotype.Service;
 

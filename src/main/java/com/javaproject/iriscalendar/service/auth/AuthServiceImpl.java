@@ -1,4 +1,4 @@
-package com.javaproject.iriscalendar.service;
+package com.javaproject.iriscalendar.service.auth;
 
 import com.javaproject.iriscalendar.model.entity.User;
 import com.javaproject.iriscalendar.repository.UserRepository;

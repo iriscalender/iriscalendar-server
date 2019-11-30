@@ -1,4 +1,4 @@
-package com.javaproject.iriscalendar.service;
+package com.javaproject.iriscalendar.service.auth;
 
 import com.javaproject.iriscalendar.exception.InvalidJwtAuthenticationException;
 import com.javaproject.iriscalendar.exception.TokenExpiredException;
