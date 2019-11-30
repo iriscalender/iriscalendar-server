@@ -16,4 +16,5 @@ public interface ManualCalendarService {
     ManualCalendar update(ManualCalendar calendar, ManualCalendarModel update);
     void delete(ManualCalendar calendar);
     Optional<ArrayList<ManualCalendar>> getAllByUserId(String id);
+    Optional<List<ManualCalendar>> getAllByUserIdAndDate(String id, String date);
 }

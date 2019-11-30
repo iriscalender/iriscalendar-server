@@ -114,10 +114,11 @@ public class AutoToManualCalendarServiceImpl implements AutoToManualCalendarServ
     }
 
     private boolean isManualCalendarExistBetweenTwoTime(ZonedDateTime start, ZonedDateTime end, ManualCalendar manualCalendar) {
-        ZonedDateTime manualCalendarDate = LocalDateTime.parse(manualCalendar.getStartTime(), formatter).atZone(seoul);;
+        ZonedDateTime manualCalendarStartDate = LocalDateTime.parse(manualCalendar.getStartTime(), formatter).atZone(seoul);
+        ZonedDateTime manualCalendarEndDate = LocalDateTime.parse(manualCalendar.getEndTime(), formatter).atZone(seoul);;
 
         long startMilliSecond = start.toInstant().toEpochMilli();
-        long manualCalendarMilliSecond = manualCalendarDate.toInstant().toEpochMilli();
+        long manualCalendarMilliSecond = manualCalendarStartDate.toInstant().toEpochMilli();
         long endMilliSecond = end.toInstant().toEpochMilli();
 
         return startMilliSecond < manualCalendarMilliSecond && manualCalendarMilliSecond < endMilliSecond;
@@ -195,8 +196,8 @@ public class AutoToManualCalendarServiceImpl implements AutoToManualCalendarServ
     }
 
     @Override
-    public List<AutoToManualCalendar> getAllByDate(String date) {
-        return autoToManualRepository.getAutoToManualCalendarsByStartTimeContaining(date);
+    public Optional<List<AutoToManualCalendar>> getAllByUserIdAndDate(String id, String date) {
+        return autoToManualRepository.getAutoToManualCalendarsByAutoUserIdAndStartTimeContaining(id, date);
     }
 
     @Override

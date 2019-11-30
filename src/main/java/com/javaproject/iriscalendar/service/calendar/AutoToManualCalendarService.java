@@ -6,12 +6,13 @@ import com.javaproject.iriscalendar.model.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface AutoToManualCalendarService {
     AutoToManualCalendar save(AutoToManualCalendar autoToManualCalendar);
     List<AutoToManualCalendar> saveAll(List<AutoToManualCalendar> autoToManualCalendars);
-    List<AutoToManualCalendar> getAllByDate(String date) throws Exception;
+    Optional<List<AutoToManualCalendar>> getAllByUserIdAndDate(String id, String date) throws Exception;
     void addNewCalendar(AutomaticCalendar newCalendar, String userId);
     void deleteAllByAutomaticCalendar(AutomaticCalendar automaticCalendar);
     AutoToManualCalendar test(AutomaticCalendar newCalendar);
