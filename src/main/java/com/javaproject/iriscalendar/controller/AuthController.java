@@ -7,9 +7,11 @@ import com.javaproject.iriscalendar.model.request.SignInModel;
 import com.javaproject.iriscalendar.model.request.SignUpModel;
 
 import com.javaproject.iriscalendar.model.response.TokenResponse;
-import com.javaproject.iriscalendar.service.AuthService;
-import com.javaproject.iriscalendar.service.TokenService;
+import com.javaproject.iriscalendar.service.auth.AuthService;
+import com.javaproject.iriscalendar.service.auth.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,19 +28,20 @@ public class AuthController {
     TokenService tokenService;
 
     @PostMapping("/signup")
-    public TokenResponse signUp(@RequestBody @Valid SignUpModel signUpModel) {
+    public ResponseEntity<TokenResponse> signUp(@RequestBody @Valid SignUpModel signUpModel) {
          Optional<User> user = authService.getUserById(signUpModel.getId());
         if (user.isPresent()) {
             throw new AlreadyExistException("Account Already Exist");
-        } else {
-            User newUser = User.builder()
-                    .id(signUpModel.getId())
-                    .password(signUpModel.getPassword())
-                    .build();
-
-            authService.saveUser(newUser);
-            return new TokenResponse(tokenService.createToken(newUser.getUserId()));
         }
+
+        User newUser = User.builder()
+                .id(signUpModel.getId())
+                .password(signUpModel.getPassword())
+                .build();
+
+        authService.saveUser(newUser);
+        TokenResponse tokenResponse = new TokenResponse(tokenService.createToken(newUser.getUserId()));
+        return new ResponseEntity<>(tokenResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/signin")
