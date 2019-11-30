@@ -3,7 +3,7 @@ info:
   description: "Java Project"
   version: "0.0.1"
   title: "iris calendar"
-#host: ""
+host: "http://iriscalendar.ap-northeast-2.elasticbeanstalk.com/"
 basePath: "/"
 tags:
   - name: "Account"
