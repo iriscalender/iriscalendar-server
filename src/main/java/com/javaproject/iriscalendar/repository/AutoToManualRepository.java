@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface AutoToManualRepository extends JpaRepository<AutoToManualCalendar, String> {
-    List<AutoToManualCalendar> getAutoToManualCalendarsByStartTimeContaining(String date);
+    Optional<List<AutoToManualCalendar>> getAutoToManualCalendarsByAutoUserIdAndStartTimeContaining(String id, String date);
     void deleteAllByAuto(AutomaticCalendar automaticCalendar);
     void deleteAllByAutoUser(User user);
 }

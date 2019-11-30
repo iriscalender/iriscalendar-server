@@ -13,4 +13,5 @@ public interface ManualCalendarRepository extends JpaRepository<ManualCalendar, 
     Optional<ManualCalendar> findManualCalendarByUserId(String id);
     Optional<ArrayList<ManualCalendar>> findAllByUserIdOrderByStartTimeAsc(String id);
     Optional<ManualCalendar> findManualCalendarByIdx(Long idx);
+    Optional<List<ManualCalendar>> getManualCalendarsByUserIdAndStartTimeContaining(String id, String date);
 }
