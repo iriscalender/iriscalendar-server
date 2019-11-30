@@ -8,7 +8,6 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -24,12 +23,13 @@ public class AutomaticCalendar {
     @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private Long idx;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @Embedded
     @JsonIgnore
     private User user;
 
     @NotNull
+    // Todo: category foreign key
     private String category;
     @NotNull
     private String calendarName;

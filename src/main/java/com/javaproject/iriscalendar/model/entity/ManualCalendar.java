@@ -20,10 +20,10 @@ import javax.validation.constraints.NotNull;
 public class ManualCalendar {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @JsonProperty("id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private Long idx;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @Embedded
     @JsonIgnore
     private User user;

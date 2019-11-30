@@ -21,7 +21,8 @@ public class AutoToManualCalendar {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long idx;
 
-    @ManyToOne(targetEntity = AutomaticCalendar.class, fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(targetEntity = AutomaticCalendar.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JsonIgnore
     @Embedded
     private AutomaticCalendar auto;
 
