@@ -24,8 +24,7 @@ public class DifferentTime {
                 TimeUnit.DAYS.toHours(days);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(diff) -
                 TimeUnit.DAYS.toMinutes(days) - (
-                        TimeUnit.HOURS.toMinutes(hours) - TimeUnit.DAYS.toMinutes(days)
-        );
+                        TimeUnit.HOURS.toMinutes(hours));
 
         return DifferentTime.builder()
                 .diff(diff)

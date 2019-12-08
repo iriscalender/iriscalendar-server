@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class AvailableTime {
     private String date;
-    private int availableTime;
+    private DifferentTime availableTime;
     private ZonedDateTime startTime;
-    private ZonedDateTime EndTime;
+    private ZonedDateTime endTime;
 }

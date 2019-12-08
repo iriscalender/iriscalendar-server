@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -28,6 +30,11 @@ public class AutomaticCalendar {
     @JsonIgnore
     private User user;
 
+    @OneToMany(mappedBy = "auto" , cascade = CascadeType.REMOVE)
+    @Builder.Default
+    @JsonIgnore
+    private List<AutoToManualCalendar> autoToManualCalendars = new ArrayList<>();
+
     @NotNull
     // Todo: category foreign key
     private String category;
@@ -38,6 +45,7 @@ public class AutomaticCalendar {
     @NotNull
     private int requiredTime;
     @NotNull
+    @JsonProperty
     private boolean isParticularImportant;
     @JsonIgnore
     private int priority;
